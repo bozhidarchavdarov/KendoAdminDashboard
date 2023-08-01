@@ -2,14 +2,14 @@ import { test, expect } from "@e2ePages/common/prerequisites-setup";
 import { ExcelFileSystemUtils } from '@e2eUtils/excel.utils';
 import { CellValue } from 'exceljs';
 
-test.describe('Kendo Admin Dashboard - Download Functonality', async () => {
+test.describe('Kendo Admin Dashboard - Download Functionality', async () => {
 
     const downloadedPdfFileName = `Employees*.pdf`;
     const downloadedExcelFileName = `Employees*.xlsx`;
     const excelSheet1Name = 'Sheet1';
     const expectedCellValueBeforeReordering = 'Pesho';
     const columnToDragAndDrop = 'Rating';
- 
+
     test.beforeEach(async ({page}) => {
         await page.goto('/KendoAdminDashboard');
     });
@@ -32,7 +32,7 @@ test.describe('Kendo Admin Dashboard - Download Functonality', async () => {
         let workbook = await ExcelFileSystemUtils.getWorkbook(download);
         let excelA3Value: CellValue = ExcelFileSystemUtils.getValueAtCell(workbook, 3, 1, excelSheet1Name);
         // Check the A3 cell value before reordering
-        expect.soft(excelA3Value as string, `Expected cell value ${expectedCellValueBeforeReordering} is not correct. 
+        expect.soft(excelA3Value as string, `Expected cell value ${expectedCellValueBeforeReordering} is not correct.
             The actual value is: ${excelA3Value as string}`).toEqual(expectedCellValueBeforeReordering);
 
         await pages.kendoAdminDashboardPage.dragAndDropByColumnName(columnToDragAndDrop);
@@ -44,7 +44,7 @@ test.describe('Kendo Admin Dashboard - Download Functonality', async () => {
         ]);
         workbook = await ExcelFileSystemUtils.getWorkbook(download);
         excelA3Value = ExcelFileSystemUtils.getValueAtCell(workbook, 3, 1, excelSheet1Name);
-        expect(excelA3Value as string, `Expected cell value ${columnToDragAndDrop} is not correct. 
+        expect(excelA3Value as string, `Expected cell value ${columnToDragAndDrop} is not correct.
             The actual value is: ${excelA3Value as string}`).toEqual(columnToDragAndDrop + ": 1");
         await pages.kendoAdminDashboardPage.clearAllDropTargets();
     });

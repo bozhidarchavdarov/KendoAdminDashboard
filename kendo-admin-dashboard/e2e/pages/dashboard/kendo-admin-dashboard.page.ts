@@ -3,7 +3,7 @@ import { BasePage } from '../common/base.page';
 import { StringUtils } from '../utils/string.utils';
 
 export class KendoAdminDashboardPage extends BasePage {
- 
+
     constructor(page: Page) {
        super(page);
     }
@@ -21,7 +21,7 @@ export class KendoAdminDashboardPage extends BasePage {
     private readonly gridNoRecords = this.gridList + '.k-grid-norecords';
     private readonly removeDropTargetButton = '.k-chip-remove-action';
     private readonly kendoPager = this.kendoGrid + 'kendo-pager';
-    private readonly nextPageButton = this.kendoPager + '.k-i-caret-alt-right'; 
+    private readonly nextPageButton = this.kendoPager + '.k-i-caret-alt-right';
 
     /**
     * Search via the Kendo search bar
@@ -37,7 +37,7 @@ export class KendoAdminDashboardPage extends BasePage {
     async clearSearchBar(): Promise<void> {
         await this.clearInputField(this.searchBar);
     }
-    
+
     /**
     * Click Export to Excel button
     */
@@ -51,19 +51,19 @@ export class KendoAdminDashboardPage extends BasePage {
     async clickExportToPdfButton(): Promise<void> {
         await this.clickElement(this.exportToPdfButton);
     }
-    
+
     /**
     * Check if grid has any results
     */
     async isGridEmpty(): Promise<boolean> {
-        return this.isElementVisibleOnPage(this.gridNoRecords, {timeout: 3000});
+        return this.isElementVisible(this.gridNoRecords, {timeout: 3000});
     }
 
     /**
     * Has next available page
     */
     async hasNextPage(): Promise<boolean> {
-        if ((await this.isElementVisibleOnPage(this.nextPageButton)) && !(await this.isElementDisabled(this.nextPageButton))) {
+        if ((await this.isElementVisible(this.nextPageButton)) && !(await this.isElementDisabled(this.nextPageButton))) {
             return true;
         } else {
             return false;
@@ -74,7 +74,7 @@ export class KendoAdminDashboardPage extends BasePage {
     * Click next grid page
     */
     async clickNextPage(): Promise<void> {
-        if (await this.isElementVisibleOnPage(this.nextPageButton) && !(await this.isElementDisabled(this.nextPageButton))) {
+        if (await this.isElementVisible(this.nextPageButton) && !(await this.isElementDisabled(this.nextPageButton))) {
             await this.clickElement(this.nextPageButton);
         }
     }
@@ -85,7 +85,7 @@ export class KendoAdminDashboardPage extends BasePage {
     * @param {string} rowSelector
     */
     async getGridRowElement(rowValues: Array<string>): Promise<Locator | null> {
-        await this.waitElementToBeVisible(this.gridAllRows);
+        await this.waitForElementToBeVisible(this.gridAllRows);
         const itemsList: Locator = this.page.locator(this.gridAllRows);
         const rowCount = await itemsList.count();
         if (rowCount === 0) {
@@ -106,7 +106,7 @@ export class KendoAdminDashboardPage extends BasePage {
             return null;
         }
      }
- 
+
     /**
     * Check if the grid contains particular row
     * @param {Array<string>} rowValues
@@ -127,7 +127,7 @@ export class KendoAdminDashboardPage extends BasePage {
     async dragAndDropByColumnName(columnName: string): Promise<void> {
         const desiredColumnByName = this.page.locator("th[role='columnheader']", {hasText: columnName}).locator("a");
         const targetElement = this.page.locator(this.dropTargetPanel);
-        await this.waitElementsToBeVisibleByLocator(desiredColumnByName)
+        await this.waitForElementToBeVisible(desiredColumnByName)
         await this.dragAndDropElementByLocator(desiredColumnByName, targetElement);
     }
 
@@ -135,7 +135,7 @@ export class KendoAdminDashboardPage extends BasePage {
     * Get the reordered rows count
     */
     async getReorderedGridRowsCount(): Promise<number> {
-        await this.waitElementToBeVisible(this.reorderedRows, {timeout: 2000});
+        await this.waitForElementToBeVisible(this.reorderedRows, {timeout: 2000});
         return this.countElements(this.reorderedRows);
     }
 
@@ -144,17 +144,17 @@ export class KendoAdminDashboardPage extends BasePage {
     * @param {string} columnName
     */
     async getReorderedGridHeaderIndex(columnName: string): Promise<string | null> {
-        await this.waitElementToBeVisible(this.reorderedRows);
+        await this.waitForElementToBeVisible(this.reorderedRows);
         const reorderedColumnHeader = this.page.locator("//p[@class='k-reset' and contains(text(),'" +
             columnName + "')]/ancestor::tr[@kendogridgroupheader]").first();
-        return this.getAttributeByLocator(reorderedColumnHeader, 'aria-rowindex');
+        return this.getAttribute(reorderedColumnHeader, 'aria-rowindex');
     }
 
     /**
     * Get only the rows which contains data, the table headers are excluded
     */
     async getOnlyDataGridRowsCount(): Promise<number> {
-        await this.waitElementToBeVisible(this.gridDataRows, {timeout: 2000});
+        await this.waitForElementToBeVisible(this.gridDataRows, {timeout: 2000});
         return this.countElements(this.gridDataRows);
     }
 
@@ -162,7 +162,7 @@ export class KendoAdminDashboardPage extends BasePage {
     * Teardown method for removing all dropped filters if the remove button is visible
     */
     async clearAllDropTargets(): Promise<void> {
-        if (await this.isElementVisibleOnPageByLocator(this.page.locator(this.removeDropTargetButton).first())) {
+        if (await this.isElementVisible(this.page.locator(this.removeDropTargetButton).first())) {
             const removeTargetButtonsCount = await this.page.locator(this.removeDropTargetButton).count();
             for (let i = 0; i < removeTargetButtonsCount; i++) {
                 await this.clickElement(this.removeDropTargetButton);
