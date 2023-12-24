@@ -16,6 +16,7 @@ export class BasePage {
         return process.platform;
     }
 
+    // new comment
     /**
      * Get element locator
      * @param {string | Locator} element
