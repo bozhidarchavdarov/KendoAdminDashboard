@@ -1,5 +1,7 @@
 # KendoAdminDashboard
 
+Added new text
+
 * Created admin dashboard with Kendo components. 
 * URL: https://danieltakev.github.io/KendoAdminDashboard/
 
