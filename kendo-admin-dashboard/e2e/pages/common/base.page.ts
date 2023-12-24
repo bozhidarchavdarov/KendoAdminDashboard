@@ -9,6 +9,7 @@ export class BasePage {
        this.page = page;
     }
 
+    // New comment
     /**
     * Fetch the OS name via NodeJS
     */
