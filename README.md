@@ -1,5 +1,5 @@
 # KendoAdminDashboard
-
+// test Bozhidar Skillo
 * Created admin dashboard with Kendo components. 
 * URL: https://danieltakev.github.io/KendoAdminDashboard/
 
